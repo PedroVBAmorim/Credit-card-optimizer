@@ -2,9 +2,10 @@
 #include <vector>
 #include <string>
 #include <limits>
+using namespace std;
 
 struct CreditCard {
-    std::string name;
+    string name;
 
     double annualFee;
     double signupBonusPoints;
@@ -61,9 +62,9 @@ double cardScore( const CreditCard &card, const UserProfile &user ) {
     score += user.wPartners * ( card.numTravelPartners / 10.0 );
     return score;
 }
-const CreditCard *bestCardForUser( const std::vector<CreditCard> &cards,const UserProfile &user ) {
+const CreditCard *bestCardForUser( const vector<CreditCard> &cards,const UserProfile &user ) {
     const CreditCard *best = nullptr;
-    double bestScore = -std::numeric_limits<double>::infinity();
+    double bestScore = -numeric_limits<double>::infinity();
     for( auto &c : cards ) {
         double s = cardScore( c, user );
         if( s > bestScore ) {
@@ -74,7 +75,7 @@ const CreditCard *bestCardForUser( const std::vector<CreditCard> &cards,const Us
     return best;
 }
 int main() {
-    std::vector<CreditCard> cards = {
+    vector<CreditCard> cards = {
         { "TravelPlus Preferred",
           95.0,
           60000, 0.0125,
@@ -103,18 +104,18 @@ int main() {
           0.0 }
     };
     UserProfile user;
-    std::cout << "credit card optimizer\n\n";
-    std::cout << "annual spend estimates\n";
-    std::cout << "  travel:  ";
-    std::cin  >> user.spendTravel;
-    std::cout << "  dining:  ";
-    std::cin  >> user.spendDining;
-    std::cout << "  grocery: ";
-    std::cin  >> user.spendGrocery;
-    std::cout << "  other:   ";
-    std::cin  >> user.spendOther;
-    std::cout << "fraction of spend that is foreign (0 - 1): ";
-    std::cin  >> user.foreignSpendRatio;
+    cout << "credit card optimizer\n\n";
+    cout << "annual spend estimates\n";
+    cout << "  travel:  ";
+    cin  >> user.spendTravel;
+    cout << "  dining:  ";
+    cin  >> user.spendDining;
+    cout << "  grocery: ";
+    cin  >> user.spendGrocery;
+    cout << "  other:   ";
+    cin  >> user.spendOther;
+    cout << "fraction of spend that is foreign (0 - 1): ";
+    cin  >> user.foreignSpendRatio;
     user.wSignup   = 1.0;
     user.wRewards  = 2.0;
     user.wPerks    = 1.0;
@@ -122,21 +123,21 @@ int main() {
     user.wPartners = 0.5;
     user.wFxFees   = 1.0;
     const CreditCard *best = bestCardForUser( cards, user );
-    if( !best ) {std::cout << "\nno cards\n";
+    if( !best ) {cout << "\nno cards\n";
     return 0;
     }
     double bonus   = signupBonusValue( *best );
     double rewards = ongoingRewardsValue( *best, user );
     double fx      = foreignTxFees( *best, user );
     double netYear = bonus + rewards + best->perkValuePerYear- best->annualFee - fx;
-    std::cout << "\nrecommended card: " << best->name << "\n\n";
-    std::cout << "first-year estimate\n";
-    std::cout << "  signup bonus: " << bonus << "\n";
-    std::cout << "  rewards:      " << rewards << "\n";
-    std::cout << "  perks:        " << best->perkValuePerYear << "\n";
-    std::cout << "  annual fee:  -" << best->annualFee << "\n";
-    std::cout << "  fx fees:     -" << fx << "\n";
-    std::cout << "  -------------------------\n";
-    std::cout << "  net:          " << netYear << "\n";
+    cout << "\nrecommended card: " << best->name << "\n\n";
+    cout << "first-year estimate\n";
+    cout << "  signup bonus: " << bonus << "\n";
+    cout << "  rewards:      " << rewards << "\n";
+    cout << "  perks:        " << best->perkValuePerYear << "\n";
+    cout << "  annual fee:  -" << best->annualFee << "\n";
+    cout << "  fx fees:     -" << fx << "\n";
+    cout << "  -------------------------\n";
+    cout << "  net:          " << netYear << "\n";
     return 0;
 }
